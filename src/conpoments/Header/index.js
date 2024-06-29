@@ -4,9 +4,9 @@ const Header = () => {
   return (
     <div className="container-header">
       <div className="landing">
-        <marquee className="wel" width="100%" behavior="alternate">
-          Chào Mừng Bạn Đến
-        </marquee>
+        <h3 className="wel" width="100%">
+          Wellcome APP
+        </h3>
       </div>
 
       <h1>V.I.P MELON LA</h1>
