@@ -143,4 +143,10 @@ button.btn-c {
     height: 1.5rem;
     align-self: center;
   }
+  h2.rsprice {
+    font-size: 1.2rem;
+  }
+  h2.rsprice strong {
+    font-size: 1.5rem;
+  }
 }
