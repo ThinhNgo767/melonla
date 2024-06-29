@@ -183,7 +183,6 @@ const Melon = () => {
                   <textarea
                     value={textarea.value.replace(/[^0-9" " .]/g, "")}
                     id={textarea.id}
-                    inputMode="numeric"
                     onChange={(e) => handleChange(textarea.id, e.target.value)}
                   />
                   <div className="box-item">
