@@ -1,0 +1,14 @@
+.footer h1 {
+  margin: 0;
+  padding: 1rem 0;
+  width: 100%;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1rem;
+  background-image: url("../../images/wtml.jpg");
+  background-size: contain;
+  background-clip: text;
+  color: transparent;
+  border-top: 1px solid #2a4e0f;
+  padding-bottom: 0.5rem;
+  filter: drop-shadow(1px 2px 4px #2a4e0f);
+}

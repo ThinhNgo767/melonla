@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .App-logo {
@@ -7,6 +8,14 @@
   pointer-events: none;
 }
 
+button,
+input {
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+.App .box-melon {
+  height: 100vh;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

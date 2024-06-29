@@ -1,0 +1,25 @@
+.container-header {
+  height: fit-content;
+  padding: 1rem 0.25rem;
+}
+.container-header h1 {
+  margin: 0;
+  padding: 0;
+}
+.container-header h1 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  background-image: url("../../images/dua-hau-2k.jpeg");
+  background-size: cover;
+  background-clip: text;
+  color: transparent;
+  border-bottom: 1px solid #fed7dc;
+  padding-bottom: 0.5rem;
+  filter: drop-shadow(1px 2px 4px #2a4e0f);
+}
+.container-header marquee {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #2a4e0f;
+  padding-bottom: 0.25rem;
+}

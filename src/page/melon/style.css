@@ -1,0 +1,146 @@
+.box-product,
+.box-product-text,
+.box-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.box-item {
+  margin-top: 0;
+}
+.box-product label {
+  width: 7rem;
+  margin-top: 1rem;
+}
+.box-product textarea {
+  resize: none;
+  border: 1px solid #000;
+  border-radius: 3px;
+  width: 15rem;
+  height: 1.2rem;
+  font-size: 1rem;
+  font-family: "Times New Roman", Times, serif;
+}
+input.price-melon {
+  width: 3rem;
+  height: 1.3rem;
+}
+input.name-melon {
+  height: 1.2rem;
+}
+input:focus,
+textarea:focus {
+  outline: #4c6748 1.5px solid;
+  border: 1px solid #4c6748;
+}
+label.label-price,
+label.label-name {
+  margin-top: 0;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+strong.strong-total {
+  font-size: 1.2rem;
+  color: blue;
+}
+h2.rsprice strong {
+  font-size: 2rem;
+  color: blue;
+}
+p.p-total {
+  font-weight: 600;
+}
+.crt-button button,
+.container-button button {
+  margin: 0 0.5rem;
+  min-width: fit-content;
+  min-height: 2rem;
+  background-color: #4c6748;
+  font-weight: 600;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.crt-button button:hover,
+.container-button button:hover {
+  transform: translateY(2px);
+}
+.crt-button {
+  margin-top: 2rem;
+}
+button.tinh {
+  text-transform: uppercase;
+  background-color: #4c6748;
+  color: #fff;
+  min-width: 3rem;
+  min-height: 1.6rem;
+  font-weight: 550;
+}
+button.tinh:hover {
+  border: 1px solid #4c6748;
+  background-color: #fff;
+  color: #4c6748;
+}
+button.btn-c {
+  background-color: #fcfcfe;
+  border: 1px solid #4c6748;
+  color: #4c6748;
+}
+@media only screen and (max-width: 480px) {
+  .box-product {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+    margin-top: 0.5rem;
+  }
+  .box-product label {
+    margin: 0.5rem 0;
+  }
+  .box-product,
+  .box-product-text {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .box-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .box-item .tinh {
+    min-height: 1.8rem;
+    min-width: 4rem;
+  }
+  .container-button {
+    margin-top: 2rem;
+  }
+  .container-resul-total {
+    margin-top: 1.5rem;
+  }
+  .container-button button,
+  .crt-button button {
+    margin: 0 0.5rem;
+    min-height: 2.2rem;
+    min-width: 6rem;
+  }
+  input,
+  textarea {
+    height: 1.5rem;
+  }
+  .box-product-text {
+    margin-top: 0;
+  }
+  .box-product label {
+    font-weight: 600;
+    font-size: 20px;
+    min-width: fit-content;
+  }
+  .box-product textarea {
+    height: 1.5rem;
+    align-self: center;
+  }
+}
