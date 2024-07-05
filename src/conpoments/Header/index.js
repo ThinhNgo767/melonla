@@ -1,12 +1,63 @@
 import "./style.css";
 
-const Header = () => {
+import { NavLink } from "react-router-dom";
+import { AiOutlineLogout } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+
+const Header = ({ isLogin, setIsLogin }) => {
+  const activeClass = (params) => {
+    return params.isActive ? "active-item" : "";
+  };
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("dataMelon");
+    setIsLogin(false);
+    navigate("/");
+  };
+
   return (
     <div className="container-header">
       <div className="landing">
-        <h3 className="wel" width="100%">
-          Wellcome APP
-        </h3>
+        <ul className="nav-list">
+          {isLogin ? (
+            <>
+              <li>
+                <NavLink to="/cal-melon" className={activeClass}>
+                  APP
+                </NavLink>
+              </li>
+              <li>|</li>
+              <li>
+                <NavLink to="/list" className={activeClass}>
+                  Custom
+                </NavLink>
+              </li>
+              <li>|</li>
+              <li>
+                <button className="logout" onClick={handleLogout}>
+                  <AiOutlineLogout /> LOGOUT
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/" className={activeClass}>
+                  Home
+                </NavLink>
+              </li>
+              <li>|</li>
+              <li>
+                <NavLink to="/contact" className={activeClass}>
+                  Contact us
+                </NavLink>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
 
       <h1>V.I.P MELON LA</h1>

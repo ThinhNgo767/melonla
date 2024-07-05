@@ -1,6 +1,9 @@
 .App {
   text-align: center;
   font-family: "Times New Roman", Times, serif;
+  background-image: url("./images/bg-ml.jpg");
+  background-size: cover;
+  background-repeat: repeat-y;
 }
 
 .App-logo {
@@ -10,7 +13,8 @@
 
 button,
 input {
-  border: 1px solid #000;
+  border: 1px solid #4c6748;
+  outline: 1px solid #4c6748;
   border-radius: 3px;
 }
 .App .box-melon {
@@ -44,5 +48,10 @@ input {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+@media only screen and (max-width: 480px) {
+  .App {
+    background-size: contain;
   }
 }

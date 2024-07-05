@@ -4,26 +4,25 @@ import { saveDataMelon } from "../../api/dataMelon";
 import { useState } from "react";
 import swal from "sweetalert";
 
-const Melon = ({ isLogin }) => {
+const Melons = () => {
   const [textareas, setTextareas] = useState([
     {
       id: 1,
       value: "",
       name: "dưa chưng",
-
-      kilograms: 0,
-      totalPriceMelon: 0,
     },
   ]);
 
+  console.log(textareas);
   const [add, setAdd] = useState(false);
   const [save, setSave] = useState(false);
   const [nameMelon, setNameMelon] = useState("");
+  const [price, setPrice] = useState(0);
+
   const [resultPrice, setResultPrice] = useState(0);
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
   const [payment, setPayment] = useState(false);
-  const [calculatorMelon, setCalculatorMelon] = useState(false);
 
   const date = new Date();
 
@@ -63,18 +62,13 @@ const Melon = ({ isLogin }) => {
     setAdd(true);
   };
 
-  const handleChangeNumberOfKilogram = (id, value, price) => {
-    const values = value.split(" ").reduce((t, c) => +t + +c);
-    const totalPrice = values * price * 1000;
-
+  const handleChange = (id, value) => {
     setTextareas((prev) =>
       prev.map((textarea) => {
         if (textarea.id === id) {
           return {
             ...textarea,
             value,
-            kilograms: values,
-            totalPriceMelon: totalPrice,
           };
         }
         return textarea;
@@ -82,16 +76,15 @@ const Melon = ({ isLogin }) => {
     );
   };
 
-  const handleChangePrice = (id, value) => {
+  const handleChangeInput = (id, value) => {
     setTextareas((prev) =>
       prev.map((textarea) => {
         if (textarea.id === id) {
           return {
             ...textarea,
-            price: +value,
+            price: value.replace(/[^0-9]/g, ""),
           };
         }
-
         return textarea;
       })
     );
@@ -139,7 +132,6 @@ const Melon = ({ isLogin }) => {
       },
     ]);
     setResultPrice(0);
-    setCalculatorMelon(false);
   };
 
   const handleSaveData = () => {
@@ -153,15 +145,6 @@ const Melon = ({ isLogin }) => {
 
     saveDataMelon(newData);
     setSave(false);
-  };
-
-  const calculatorMelons = () => {
-    const rst = textareas.reduce((t, c) => {
-      return t + c.totalPriceMelon;
-    }, 0);
-
-    setResultPrice(rst);
-    setCalculatorMelon(true);
   };
 
   return (
@@ -254,45 +237,39 @@ const Melon = ({ isLogin }) => {
               {textareas.map((textarea) => (
                 <div key={textarea.id} className="container-product">
                   <div className="box-product">
-                    <div className="box-item">
-                      <label
-                        htmlFor={`name-melon-${textarea.id}`}
-                        className="label-name-melon"
-                      >
-                        {textarea.name.toUpperCase()}
-                      </label>
-                      <label className="label-price">
-                        GIÁ
-                        <input
-                          type="text"
-                          className="price-melon"
-                          value={textarea.price ?? 0}
-                          inputMode="numeric"
-                          onChange={(e) =>
-                            handleChangePrice(textarea.id, e.target.value)
-                          }
-                        />
-                      </label>
-                    </div>
-
+                    {" "}
+                    <label htmlFor={textarea.id}>
+                      {textarea.name.toUpperCase()}
+                    </label>
                     <div className="box-product-text">
-                      <label
-                        htmlFor={`soluong-melon-${textarea.id}`}
-                        className="label-name-melon"
-                      >
-                        SỐ LƯỢNG
-                      </label>
                       <textarea
                         value={textarea.value.replace(/[^0-9" " .]/g, "")}
-                        id={`soluong-melon-${textarea.id}`}
+                        id={textarea.id}
                         onChange={(e) =>
-                          handleChangeNumberOfKilogram(
-                            textarea.id,
-                            e.target.value,
-                            textarea.price
-                          )
+                          handleChange(textarea.id, e.target.value)
                         }
                       />
+                      <div className="box-item">
+                        <label className="label-price">
+                          GIÁ{" "}
+                          <input
+                            type="text"
+                            className="price-melon"
+                            value={textarea.value}
+                            inputMode="numeric"
+                            onChange={(e) =>
+                              handleChangeInput(textarea.id, e.target.value)
+                            }
+                          />
+                        </label>
+                        <button
+                          onClick={() => handleCalculator(textarea.id)}
+                          type="button"
+                          className="tinh"
+                        >
+                          Tính
+                        </button>
+                      </div>
                     </div>
                   </div>
                   {textarea.totalMelon && (
@@ -329,7 +306,7 @@ const Melon = ({ isLogin }) => {
               ))}
               <div className="container-resul-total">
                 <div className="crt-button">
-                  <button onClick={calculatorMelons} type="button">
+                  <button onClick={handleSubmitTotal} type="button">
                     TỔNG TIỀN
                   </button>
                   <button className="btn-c" onClick={handleReset} type="button">
@@ -343,54 +320,15 @@ const Melon = ({ isLogin }) => {
                     LƯU DT
                   </button>
                 </div>
-
-                {calculatorMelon && (
-                  <section>
-                    {" "}
-                    <table className="table-total">
-                      <thead>
-                        <tr>
-                          <th>LOẠI</th>
-                          <th>GIÁ $</th>
-                          <th>SỐ KG</th>
-                          <th>TỔNG $</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {textareas.map((melon) => (
-                          <tr key={melon.id}>
-                            <td>{melon.name.toUpperCase()}</td>
-                            <td>
-                              {isNaN(
-                                (melon?.price * 1000).toLocaleString("vi-VN")
-                              )
-                                ? 0
-                                : (melon?.price * 1000).toLocaleString("vi-VN")}
-                              <sup>vnđ</sup>
-                            </td>
-                            <td>
-                              {melon?.kilograms ?? 0}
-                              <sup>Kg</sup>
-                            </td>
-                            <td>
-                              {melon?.totalPriceMelon.toLocaleString("vi-VN") ??
-                                0}
-                              <sup>vnđ</sup>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div style={{ width: "100vw" }}>
-                      <h1 className="price-label">
-                        TỔNG CỘNG :
-                        <strong>
-                          {resultPrice.toLocaleString("vi-VN")}
-                          <sup>vnđ</sup>
-                        </strong>
-                      </h1>
-                    </div>{" "}
-                  </section>
+                <div className="crt-kq"></div>
+                {resultPrice > 0 && (
+                  <h2 className="rsprice">
+                    TỔNG CỘNG :{" "}
+                    <strong>
+                      {resultPrice.toLocaleString("vi-VN")}
+                      <sup>vnđ</sup>
+                    </strong>
+                  </h2>
                 )}
               </div>
             </div>
@@ -401,4 +339,4 @@ const Melon = ({ isLogin }) => {
   );
 };
 
-export default Melon;
+export default Melons;

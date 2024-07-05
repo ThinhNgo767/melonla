@@ -1,3 +1,6 @@
+.box-melon {
+  max-width: 100vw;
+}
 .box-product,
 .box-product-text,
 .box-item {
@@ -7,16 +10,15 @@
   gap: 1rem;
   margin-top: 1rem;
 }
-.box-item {
-  margin-top: 0;
-}
+
 .box-product label {
   width: 7rem;
   margin-top: 1rem;
 }
 .box-product textarea {
   resize: none;
-  border: 1px solid #000;
+  border: 1px solid #4c6748;
+  outline: 1px solid #4c6748;
   border-radius: 3px;
   width: 15rem;
   height: 1.2rem;
@@ -24,8 +26,17 @@
   font-family: "Times New Roman", Times, serif;
 }
 input.price-melon {
-  width: 3rem;
+  width: 2rem;
   height: 1.3rem;
+  outline: none;
+  border: none;
+  background-color: #2d4976;
+  color: #fff;
+  padding-left: 0.25rem;
+}
+input.price-melon:focus {
+  outline: none;
+  border: none;
 }
 input.name-melon {
   height: 1.2rem;
@@ -47,8 +58,7 @@ strong.strong-total {
   font-size: 1.2rem;
   color: blue;
 }
-h2.rsprice strong {
-  font-size: 2rem;
+h1.price-label strong {
   color: blue;
 }
 p.p-total {
@@ -73,6 +83,9 @@ p.p-total {
 .crt-button {
   margin-top: 2rem;
 }
+button.btn-save {
+  background-color: #ff928f;
+}
 button.tinh {
   text-transform: uppercase;
   background-color: #4c6748;
@@ -91,6 +104,124 @@ button.btn-c {
   border: 1px solid #4c6748;
   color: #4c6748;
 }
+.save-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+.save-data p {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.save-data label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4c6748;
+  text-transform: uppercase;
+  margin-left: 1.5rem;
+  min-width: 5rem;
+}
+.save-data input {
+  font-size: 1rem;
+  min-width: 15rem;
+  min-height: 1.5rem;
+}
+.save-data textarea {
+  font-size: 1.2rem;
+  min-width: 15rem;
+  min-height: 8rem;
+}
+.save-data textarea,
+.save-data input {
+  border: 1px solid #4c6748;
+  outline: 1px solid #4c6748;
+}
+input#payment {
+  min-width: 2rem;
+  border: none;
+  outline: none;
+}
+button.btn-save-data {
+  min-width: 10rem;
+  min-height: 2.5rem;
+  background-color: #4c6748;
+  color: #fcfcfe;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  border: 1px solid #4c6748;
+}
+button.btn-cancel-data {
+  min-width: 8rem;
+  min-height: 2.5rem;
+  background-color: #ff928f;
+  color: #fcfcfe;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  border: 1px solid #ff928f;
+}
+#btn-s {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
+  gap: 2rem;
+}
+label.label-name-melon,
+label.label-price {
+  font-weight: 600;
+  border: 2px solid #4c6748;
+  border-radius: 3px;
+  color: #4c6748;
+  margin-top: 0;
+  padding: 0.15rem;
+  background-color: #fff5f3;
+}
+table.table-total {
+  margin-top: 2rem;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 100;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.table-total td,
+table.table-total th {
+  border: 1px solid #2a4e0f;
+  text-align: left;
+  padding: 8px;
+}
+table.table-total td {
+  font-weight: bold;
+  color: #0362fc;
+}
+
+table.table-total tr:nth-child(even) {
+  background-color: #8fcb6157;
+}
+table.table-total th {
+  background-color: #fdd7c8;
+  color: #2a4e0f;
+}
+h1.price-label {
+  font-size: 1.5rem;
+  padding: 1rem;
+  margin: 2rem;
+  border: 2px solid #2a4e0f;
+  background-color: #fcfcfe;
+  text-align: justify;
+  opacity: 0.8;
+}
+.price-label strong {
+  margin: 0;
+  padding: 0;
+  padding-left: 1rem;
+}
+
 @media only screen and (max-width: 480px) {
   .box-product {
     flex-direction: column;
@@ -101,8 +232,7 @@ button.btn-c {
   .box-product label {
     margin: 0.5rem 0;
   }
-  .box-product,
-  .box-product-text {
+  .box-product {
     flex-wrap: wrap;
     flex-direction: column;
   }
@@ -110,13 +240,16 @@ button.btn-c {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 5rem;
   }
   .box-item .tinh {
     min-height: 1.8rem;
     min-width: 4rem;
   }
-  .container-button {
-    margin-top: 2rem;
+  .container-button,
+  .box-product {
+    border-bottom: 1px solid #2d4976;
+    padding-bottom: 0.75rem;
   }
   .container-resul-total {
     margin-top: 1.5rem;
@@ -140,13 +273,13 @@ button.btn-c {
     min-width: fit-content;
   }
   .box-product textarea {
+    width: 12rem;
     height: 1.5rem;
     align-self: center;
   }
-  h2.rsprice {
-    font-size: 1.2rem;
-  }
-  h2.rsprice strong {
-    font-size: 1.5rem;
+
+  .crt-button,
+  .container-button {
+    margin-top: 1rem;
   }
 }

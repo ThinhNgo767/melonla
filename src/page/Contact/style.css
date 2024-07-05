@@ -1,0 +1,46 @@
+.send-contact {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  max-width: 70%;
+  margin: 0 auto;
+}
+.send-contact label {
+  color: #2a4e0f;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+.send-contact label,
+.send-contact textarea {
+  margin-bottom: 0.75rem;
+  margin-top: 0.25rem;
+}
+.send-contact button {
+  min-height: 2rem;
+  background-color: #2a4e0f;
+  color: #fff;
+  text-transform: uppercase;
+}
+.send-contact select {
+  min-height: 1.8rem;
+  font-size: 0.8rem;
+  border: 1px solid #2a4e0f;
+  outline: 1px solid #2a4e0f;
+  border-radius: 3px;
+}
+.send-contact textarea {
+  min-height: 8rem;
+  border: 1px solid #2a4e0f;
+  outline: 1px solid #2a4e0f;
+  border-radius: 3px;
+}
+p.rq-text {
+  font-weight: 600;
+  color: #2a4e0f;
+  font-size: 1.1rem;
+  background: #ffffffa7;
+  padding: 0.5rem;
+  border-radius: 3px;
+}
