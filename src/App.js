@@ -1,7 +1,7 @@
 import "./App.css";
 import Footer from "./conpoments/Footer";
 import Header from "./conpoments/Header";
-import Melon from "./page/Melon";
+import Melon from "./page/Melons";
 import DataList from "./page/DataList";
 import Home from "./page/Home";
 import EmailForm from "./page/Contact";

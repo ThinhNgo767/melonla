@@ -4,13 +4,12 @@ import { saveDataMelon } from "../../api/dataMelon";
 import { useState } from "react";
 import swal from "sweetalert";
 
-const Melon = ({ isLogin }) => {
+const Melon = () => {
   const [textareas, setTextareas] = useState([
     {
       id: 1,
       value: "",
       name: "dưa chưng",
-
       kilograms: 0,
       totalPriceMelon: 0,
     },
