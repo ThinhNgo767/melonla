@@ -74,11 +74,15 @@ td.td-name {
 }
 .item-info fieldset {
   min-width: 16rem;
+  min-height: fit-content;
 }
 .item-info strong {
   font-size: 20px;
   text-transform: capitalize;
   color: #2e51ed;
+  background-color: #ffffffc0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 5px;
 }
 .item-info .item {
   display: flex;
@@ -96,10 +100,17 @@ td.td-name {
   border-radius: 5px;
 }
 .box-edit textarea {
+  font-family: Arial, Helvetica, sans-serif;
   max-width: fit-content;
-  max-height: fit-content;
+  height: fit-content;
   border: none;
   outline: none;
   resize: none;
   background-color: transparent;
+}
+input.checkbox-item {
+  border: none;
+  outline: none;
+  min-width: 1rem;
+  min-height: 1rem;
 }

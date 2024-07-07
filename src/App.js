@@ -2,16 +2,43 @@ import "./App.css";
 import Footer from "./conpoments/Footer";
 import Header from "./conpoments/Header";
 import Melon from "./page/Melons";
-import DataList from "./page/DataList";
+import DataListMelon from "./page/DatalistMelon";
 import Home from "./page/Home";
 import EmailForm from "./page/Contact";
+import { fetchDataMelon } from "./api/dataMelon";
+import { URL_API_USERS } from "./api/dataMelon";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import axios from "axios";
+
+const checkRank = sessionStorage.getItem("user");
 
 function App() {
   const [dataMelon, setDataMelon] = useState([]);
+  const [ranker, setRanker] = useState(!!sessionStorage.getItem("user"));
   const [isLogin, setIsLogin] = useState(!!sessionStorage.getItem("user"));
+
+  useEffect(() => {
+    fetchDataMelon();
+    setDataMelon(JSON.parse(sessionStorage.getItem("dataMelon")));
+  }, [setDataMelon]);
+
+  useEffect(() => {
+    axios
+      .get(URL_API_USERS)
+      .then((res) => {
+        const data = res.data;
+
+        const rank = data.find(
+          (d) => d.userName === checkRank && d.ranker === "admin"
+        );
+        setRanker(!!rank);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [ranker]);
 
   return (
     <div className="App">
@@ -26,7 +53,13 @@ function App() {
           path="/cal-melon"
           element={
             <div className="box-melon">
-              {isLogin && <Melon isLogin={isLogin} />}
+              {isLogin && (
+                <Melon
+                  isLogin={isLogin}
+                  dataMelon={dataMelon}
+                  setDataMelon={setDataMelon}
+                />
+              )}
             </div>
           }
         />
@@ -36,7 +69,7 @@ function App() {
           element={
             <>
               {isLogin && (
-                <DataList
+                <DataListMelon
                   data={dataMelon}
                   setDataMelon={setDataMelon}
                   isLogin={isLogin}

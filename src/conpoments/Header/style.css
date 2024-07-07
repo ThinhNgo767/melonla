@@ -48,12 +48,13 @@ a.active-item {
 button.logout {
   border: none;
   outline: none;
-  background-color: transparent;
-  font-size: 1.1rem;
-  color: red;
+  background-color: #fff5f395;
+  font-size: 1rem;
+  color: #2d4976;
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.25rem;
+  padding: 0.15rem;
 }

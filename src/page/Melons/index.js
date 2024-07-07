@@ -4,10 +4,12 @@ import { saveDataMelon } from "../../api/dataMelon";
 import { useState } from "react";
 import swal from "sweetalert";
 
-const Melon = () => {
+import { v4 as uuidv4 } from "uuid";
+
+const Melon = ({ dataMelon, setDataMelon }) => {
   const [textareas, setTextareas] = useState([
     {
-      id: 1,
+      id: uuidv4(),
       value: "",
       name: "dưa chưng",
       kilograms: 0,
@@ -96,39 +98,6 @@ const Melon = () => {
     );
   };
 
-  const handleCalculator = (id) => {
-    const result = textareas.find((m) => m.id === id);
-
-    if (result) {
-      const kilograms = result.value.split(" ");
-      result.kilograms = kilograms;
-      const totalMelon = result.kilograms.reduce(
-        (total, curr) => +total + +curr
-      );
-      result.totalMelon = totalMelon;
-      result.totalPriceMelon = +result.totalMelon * +result.price;
-    }
-    setTextareas((prev) =>
-      prev.map((textarea) => {
-        if (textarea.id === id) {
-          return {
-            ...textarea,
-            ...result,
-          };
-        }
-        return textarea;
-      })
-    );
-  };
-
-  const handleSubmitTotal = () => {
-    const rst = textareas.reduce((t, c) => {
-      return t + c.totalPriceMelon;
-    }, 0);
-
-    setResultPrice(rst * 1000);
-  };
-
   const handleReset = () => {
     setTextareas([
       {
@@ -143,6 +112,7 @@ const Melon = () => {
 
   const handleSaveData = () => {
     const newData = {
+      id: uuidv4(),
       name: name,
       createdAt: date.toLocaleString("vi-VN"),
       dataMelon: textareas,
@@ -151,6 +121,8 @@ const Melon = () => {
     };
 
     saveDataMelon(newData);
+    setDataMelon([...dataMelon, newData]);
+    handleReset();
     setSave(false);
   };
 

@@ -33,6 +33,7 @@ input.price-melon {
   background-color: #2d4976;
   color: #fff;
   padding-left: 0.25rem;
+  text-align: center;
 }
 input.price-melon:focus {
   outline: none;
@@ -132,7 +133,8 @@ button.btn-c {
   min-height: 1.5rem;
 }
 .save-data textarea {
-  font-size: 1.2rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
   min-width: 15rem;
   min-height: 8rem;
 }

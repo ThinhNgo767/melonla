@@ -32,10 +32,7 @@ const Home = ({ setIsLogin }) => {
         } else if (user.password !== password) {
           return setAlertError("Mật khẩu không đúng!");
         } else {
-          let setDataSession = {
-            userName: user.userName,
-          };
-          sessionStorage.setItem("user", JSON.stringify(setDataSession));
+          sessionStorage.setItem("user", user.userName);
           setIsLogin(true);
           setUserName("");
           setPassword("");

@@ -3,6 +3,7 @@ import axios from "axios";
 export const URL_API = "https://668026f656c2c76b495b4f16.mockapi.io/melon/";
 export const URL_API_USERS =
   "https://668026f656c2c76b495b4f16.mockapi.io/users/";
+
 export const fetchDataMelon = async () => {
   await axios
     .get(URL_API)
@@ -36,9 +37,9 @@ export const deleteDataMelon = async (id) => {
     });
 };
 
-export const updateDataMelon = async (data) => {
+export const updateDataMelon = async (id, data) => {
   await axios
-    .patch(URL_API, data)
+    .put(`${URL_API}${id}`, data)
     .then(() => {
       fetchDataMelon();
     })

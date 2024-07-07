@@ -1,9 +1,9 @@
 import "./style.css";
-import { fetchDataMelon, deleteDataMelon } from "../../api/dataMelon";
+import { deleteDataMelon, updateDataMelon } from "../../api/dataMelon";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const DataList = ({ data, setDataMelon }) => {
+const DataListMelon = ({ data, setDataMelon }) => {
   const [fullInfo, setFullInfo] = useState(false);
   const [customer, setCustomer] = useState({
     id: null,
@@ -17,11 +17,6 @@ const DataList = ({ data, setDataMelon }) => {
   const [edit, setEdit] = useState(false);
   const [changePay, setChangePay] = useState(false);
   const [changeNote, setChangeNote] = useState("");
-
-  useEffect(() => {
-    fetchDataMelon();
-    setDataMelon(JSON.parse(sessionStorage.getItem("dataMelon")));
-  }, [setDataMelon]);
 
   const handleShow = (id) => {
     setFullInfo(true);
@@ -56,14 +51,40 @@ const DataList = ({ data, setDataMelon }) => {
     const cus = data.find((c) => c.id === id);
     if (cus) {
       setChangePay(cus.payment);
+      setChangeNote(cus.note);
     }
-    setEdit(!edit);
+    setEdit(true);
   };
+
+  const handleSubmitEdit = (id) => {
+    let newOption = {
+      note: changeNote,
+      payment: changePay,
+    };
+    const user = data.map((d, i) => {
+      if (d.id === id) {
+        d = { ...d, ...newOption };
+        data[i] = d;
+        updateDataMelon(d.id, d);
+      }
+      return d;
+    });
+
+    setDataMelon(user);
+    setEdit(false);
+    setFullInfo(false);
+  };
+
+  const handleBack = () => {
+    setFullInfo(false);
+    setEdit(false);
+  };
+
   return (
     <div className="table-list">
       {fullInfo ? (
         <div className="full-info">
-          <button onClick={() => setFullInfo(false)}>Quay lại</button>
+          <button onClick={handleBack}>Quay lại</button>
           <div className="item-info">
             <div className="item">
               <p>Tên:</p>
@@ -115,7 +136,7 @@ const DataList = ({ data, setDataMelon }) => {
                 <legend>Ghi chú:</legend>
                 {edit ? (
                   <textarea
-                    value={customer.note}
+                    value={changeNote}
                     onChange={(e) => setChangeNote(e.target.value)}
                   ></textarea>
                 ) : (
@@ -129,6 +150,7 @@ const DataList = ({ data, setDataMelon }) => {
               {edit ? (
                 <input
                   type="checkbox"
+                  className="checkbox-item"
                   checked={changePay}
                   onChange={() => setChangePay(!changePay)}
                 />
@@ -141,7 +163,9 @@ const DataList = ({ data, setDataMelon }) => {
             <div className="item">
               <button onClick={() => handleDelete(customer.id)}>Delete</button>
               {edit ? (
-                <button onClick={() => handleEdit(customer.id)}>Submit</button>
+                <button onClick={() => handleSubmitEdit(customer.id)}>
+                  Submit
+                </button>
               ) : (
                 <button onClick={() => handleEdit(customer.id)}>Edit</button>
               )}
@@ -176,4 +200,4 @@ const DataList = ({ data, setDataMelon }) => {
   );
 };
 
-export default DataList;
+export default DataListMelon;
