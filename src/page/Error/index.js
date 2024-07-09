@@ -14,6 +14,9 @@ const Error = () => {
           tồn tại!
         </p>
         <p className="text-error-p">
+          Hoặc có thể bạn không có quyền truy cập vào mục này.
+        </p>
+        <p className="text-error-p">
           Trang bạn đang tìm kiếm không tồn tại hoặc đã xảy ra lỗi khác.
         </p>
         <p className="text-error-p">
