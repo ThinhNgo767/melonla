@@ -266,8 +266,8 @@ const Melon = ({ dataMelon, setDataMelon, ranker }) => {
           </div>
 
           {add ? (
-            <div className="box-product">
-              <>
+            <div className="box-product box-add-new">
+              <div>
                 <label htmlFor={nameMelon} className="label-name">
                   LOẠI DƯA
                 </label>
@@ -280,8 +280,8 @@ const Melon = ({ dataMelon, setDataMelon, ranker }) => {
                   onChange={(e) => setNameMelon(e.target.value)}
                   onFocus={handleSelectName}
                 />
-              </>
-              <>
+              </div>
+              <div>
                 <label
                   htmlFor={`${nameMelon}${priceMelon}`}
                   className="label-name"
@@ -297,8 +297,9 @@ const Melon = ({ dataMelon, setDataMelon, ranker }) => {
                   className="price-new-melon"
                   onChange={(e) => setPriceMelon(e.target.value)}
                   onFocus={handleSelectPrice}
+                  inputMode="numeric"
                 />
-              </>
+              </div>
             </div>
           ) : (
             <div className="container-pro">

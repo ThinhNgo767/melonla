@@ -328,4 +328,7 @@ button.button-temporary {
   .title-thongbao {
     font-size: 18px;
   }
+  .box-add-new {
+    padding-bottom: 2rem;
+  }
 }
