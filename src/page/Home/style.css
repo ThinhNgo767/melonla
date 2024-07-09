@@ -89,4 +89,9 @@ p.alert-error {
     min-width: 80vw;
     align-self: center;
   }
+  .item-hide {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+  }
 }
