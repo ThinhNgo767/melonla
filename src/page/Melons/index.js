@@ -51,7 +51,7 @@ const Melon = ({ dataMelon, setDataMelon, ranker }) => {
   };
 
   const handleChangeNumberOfKilogram = (id, value, price) => {
-    const values = value.split(" ").reduce((t, c) => +t + +c);
+    const values = value.split(",").reduce((t, c) => +t + +c);
     const totalPrice = values * price * 1000;
 
     setTextareas((prev) =>
@@ -345,7 +345,7 @@ const Melon = ({ dataMelon, setDataMelon, ranker }) => {
                         SỐ LƯỢNG
                       </label>
                       <textarea
-                        value={textarea.value.replace(/[^0-9" " .]/g, "")}
+                        value={textarea.value.replace(/[^0-9.,]/g, "")}
                         id={`soluong-melon-${textarea.id}`}
                         onChange={(e) =>
                           handleChangeNumberOfKilogram(
