@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
-const Home = ({ setIsLogin }) => {
+const Home = ({ setIsLogin, setRanker }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [alertError, setAlertError] = useState("");
@@ -38,6 +38,17 @@ const Home = ({ setIsLogin }) => {
           setPassword("");
           fetchDataMelon();
           navigate("/cal-melon");
+        }
+        if (user.ranker === "admin") {
+          setRanker({
+            access: true,
+            admin: true,
+          });
+        } else if (user.ranker === "support") {
+          setRanker({
+            access: true,
+            admin: false,
+          });
         }
       })
       .catch((error) => {

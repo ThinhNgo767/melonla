@@ -1,9 +1,10 @@
 import "./style.css";
-import { deleteDataMelon, updateDataMelon } from "../../api/dataMelon";
+import { deleteDataMelon, fetchDataMelon } from "../../api/dataMelon";
+import ShowFullData from "./component/ShowFullData";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const DataListMelon = ({ data, setDataMelon }) => {
+const DataListMelon = ({ data = [], setDataMelon, ranker }) => {
   const [fullInfo, setFullInfo] = useState(false);
   const [customer, setCustomer] = useState({
     id: null,
@@ -15,8 +16,17 @@ const DataListMelon = ({ data, setDataMelon }) => {
   });
   const [total, setTotal] = useState(0);
   const [edit, setEdit] = useState(false);
-  const [changePay, setChangePay] = useState(false);
-  const [changeNote, setChangeNote] = useState("");
+
+  const { admin } = ranker;
+
+  useEffect(() => {
+    fetchDataMelon();
+    try {
+      setDataMelon(JSON.parse(sessionStorage.getItem("dataMelon")));
+    } catch (err) {
+      console.error(err);
+    }
+  }, [setDataMelon]);
 
   const handleShow = (id) => {
     setFullInfo(true);
@@ -29,6 +39,7 @@ const DataListMelon = ({ data, setDataMelon }) => {
         dataMelon: cus.dataMelon,
         note: cus.note,
         payment: cus.payment,
+        shipped: cus.shipped,
       });
       const totalPrice = cus.dataMelon
         .map((t) => t.totalPriceMelon)
@@ -47,33 +58,28 @@ const DataListMelon = ({ data, setDataMelon }) => {
     setFullInfo(false);
   };
 
-  const handleEdit = (id) => {
-    const cus = data.find((c) => c.id === id);
-    if (cus) {
-      setChangePay(cus.payment);
-      setChangeNote(cus.note);
-    }
+  const handleEdit = () => {
     setEdit(true);
   };
 
-  const handleSubmitEdit = (id) => {
-    let newOption = {
-      note: changeNote,
-      payment: changePay,
-    };
-    const user = data.map((d, i) => {
-      if (d.id === id) {
-        d = { ...d, ...newOption };
-        data[i] = d;
-        updateDataMelon(d.id, d);
-      }
-      return d;
-    });
+  // const handleSubmitEdit = (id) => {
+  //   let newOption = {
+  //     note: changeNote,
+  //     payment: changePay,
+  //   };
+  //   const user = data.map((d, i) => {
+  //     if (d.id === id) {
+  //       d = { ...d, ...newOption };
+  //       data[i] = d;
+  //       updateDataMelon(d.id, d);
+  //     }
+  //     return d;
+  //   });
 
-    setDataMelon(user);
-    setEdit(false);
-    setFullInfo(false);
-  };
+  //   setDataMelon(user);
+  //   setEdit(false);
+  //   setFullInfo(false);
+  // };
 
   const handleBack = () => {
     setFullInfo(false);
@@ -83,111 +89,35 @@ const DataListMelon = ({ data, setDataMelon }) => {
   return (
     <div className="table-list">
       {fullInfo ? (
-        <div className="full-info">
-          <button onClick={handleBack}>Quay lại</button>
-          <div className="item-info">
-            <div className="item">
-              <p>Tên:</p>
-              <strong>{customer.name}</strong>
-            </div>
-
-            <div className="item">
-              <p>Ngày đặt :</p>
-              <strong>{customer.createdAt}</strong>
-            </div>
-
-            <div className="box-list-melon">
-              <p className="sl">Số lượng :</p>
-
-              <div>
-                {customer.dataMelon.map((m) => (
-                  <div key={m.id} className="list-melon">
-                    <ul>
-                      <li>
-                        Loại dưa : <span>{m.name}</span>
-                      </li>
-                      <li>
-                        Số kg : <span>{m.totalMelon}kg</span>
-                      </li>
-                      <li>
-                        Giá tiền 1kg :{" "}
-                        <span>{(m.price * 1000).toLocaleString("vi-VN")}</span>
-                        <sup>vnđ</sup>
-                      </li>
-                      <li>
-                        Tổng tiền :
-                        <span>
-                          {" "}
-                          {(m.totalPriceMelon * 1000).toLocaleString("vi-VN")}
-                        </span>
-                        <sup>vnđ</sup>
-                      </li>
-                    </ul>
-                  </div>
-                ))}
-                <p className="p-total">
-                  Tổng tiền {(total * 1000).toLocaleString("vi-VN")}
-                  <sup>vnđ</sup>
-                </p>
-              </div>
-            </div>
-            <div className="item box-edit">
-              <fieldset>
-                <legend>Ghi chú:</legend>
-                {edit ? (
-                  <textarea
-                    value={changeNote}
-                    onChange={(e) => setChangeNote(e.target.value)}
-                  ></textarea>
-                ) : (
-                  <span>{customer.note}</span>
-                )}
-              </fieldset>
-            </div>
-
-            <div className="item">
-              <p>Thanh toán :</p>
-              {edit ? (
-                <input
-                  type="checkbox"
-                  className="checkbox-item"
-                  checked={changePay}
-                  onChange={() => setChangePay(!changePay)}
-                />
-              ) : (
-                <strong>
-                  {customer.payment ? "Đã thanh toán" : "Chưa thanh toán"}
-                </strong>
-              )}
-            </div>
-            <div className="item">
-              <button onClick={() => handleDelete(customer.id)}>Delete</button>
-              {edit ? (
-                <button onClick={() => handleSubmitEdit(customer.id)}>
-                  Submit
-                </button>
-              ) : (
-                <button onClick={() => handleEdit(customer.id)}>Edit</button>
-              )}
-            </div>
-          </div>
-        </div>
+        <ShowFullData
+          data={data}
+          customer={customer}
+          edit={edit}
+          total={total}
+          handleBack={handleBack}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          ranker={admin}
+          setDataMelon={setDataMelon}
+          setEdit={setEdit}
+          setFullInfo={setFullInfo}
+        />
       ) : (
         <table>
           <thead>
             <tr>
-              <th>Tên</th>
-              <th>Ngày đặt</th>
-              <th>Thanh toán</th>
-              <th>Xem</th>
+              <th>Khách hàng</th>
+              <th>Người tạo đơn</th>
+              <th>Ngày tạo đơn</th>
+              <th>Kiểm tra</th>
             </tr>
           </thead>
           <tbody>
             {data.map((d) => (
               <tr key={d.id}>
                 <td className="td-name">{d.name}</td>
+                <td className="creator">{d.orderCreator}</td>
                 <td>{d.createdAt}</td>
-                <td>{d.payment ? "Đã thanh toán" : "Chưa thanh toán"}</td>
                 <td>
                   <button onClick={() => handleShow(d.id)}>Xem</button>
                 </td>

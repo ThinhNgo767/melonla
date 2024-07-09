@@ -1,67 +1,53 @@
 import "./style.css";
 import { saveDataMelon } from "../../api/dataMelon";
+import { useAutoSelect } from "../../hook/useAutoSelect";
 
 import { useState } from "react";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
+import { AiFillDelete } from "react-icons/ai";
 
 import { v4 as uuidv4 } from "uuid";
 
-const Melon = ({ dataMelon, setDataMelon }) => {
-  const [textareas, setTextareas] = useState([
-    {
-      id: uuidv4(),
-      value: "",
-      name: "dưa chưng",
-      kilograms: 0,
-      totalPriceMelon: 0,
-    },
-  ]);
+const Melon = ({ dataMelon, setDataMelon, ranker }) => {
+  const [textareas, setTextareas] = useState([]);
 
   const [add, setAdd] = useState(false);
   const [save, setSave] = useState(false);
   const [nameMelon, setNameMelon] = useState("");
+  const [priceMelon, setPriceMelon] = useState(0);
   const [resultPrice, setResultPrice] = useState(0);
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
   const [payment, setPayment] = useState(false);
   const [calculatorMelon, setCalculatorMelon] = useState(false);
+  const [temporary, setTemporary] = useState(0);
+
+  const [selectName, handleSelectName] = useAutoSelect("");
+  const [selectPrice, handleSelectPrice] = useAutoSelect(0);
 
   const date = new Date();
+  const orderCreator = sessionStorage.getItem("user");
 
   const handleSubmit = () => {
     setTextareas((prev) => [
       ...prev,
       {
-        id: Date.now(),
+        id: uuidv4(),
         value: "",
         name: nameMelon,
+        price: priceMelon,
+        kilograms: 0,
+        totalPriceMelon: 0,
       },
     ]);
     setAdd(false);
     setNameMelon("");
-  };
-  const handleDeleteTexarea = () => {
-    swal({
-      title: "Bạn có chắc muốn xóa?",
-      text: "Hành động này sẽ xóa bớt 1 loại dưa!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        swal("XÓA THÀNH CÔNG", {
-          icon: "success",
-        });
-        textareas.pop();
-        setTextareas([...textareas]);
-      } else {
-        swal("BẠN ĐÃ HỦY XÓA");
-      }
-    });
+    setPriceMelon(0);
   };
 
   const handleAdd = () => {
     setAdd(true);
+    setTemporary(0);
   };
 
   const handleChangeNumberOfKilogram = (id, value, price) => {
@@ -99,15 +85,39 @@ const Melon = ({ dataMelon, setDataMelon }) => {
   };
 
   const handleReset = () => {
-    setTextareas([
-      {
-        id: 1,
-        value: "",
-        name: "dưa chưng",
-      },
-    ]);
+    setTextareas([]);
     setResultPrice(0);
     setCalculatorMelon(false);
+    setTemporary(0);
+  };
+
+  const handleCheckedSave = () => {
+    if (!ranker) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Bạn không có thẩm quyền để lưu?",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
+    if (textareas.length === 0) {
+      Swal.fire({
+        customClass: {
+          title: "title-thongbao",
+          icon: "icon-err",
+        },
+        position: "center",
+        title: "BẬY ZÒI NHA! CÓ CÁI GÌ ĐÂU MÀ LƯU",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      return;
+    } else {
+      setSave(true);
+    }
   };
 
   const handleSaveData = () => {
@@ -118,12 +128,37 @@ const Melon = ({ dataMelon, setDataMelon }) => {
       dataMelon: textareas,
       note: note,
       payment: payment,
+      orderCreator: orderCreator,
     };
 
-    saveDataMelon(newData);
-    setDataMelon([...dataMelon, newData]);
-    handleReset();
-    setSave(false);
+    if (name === "") {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Tên khách hàng đâu ba?",
+        showConfirmButton: false,
+        timer: 1200,
+      });
+      return;
+    } else {
+      Swal.fire({
+        title: "Bạn có muốn lưu đơn hàng không?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Lưu",
+        denyButtonText: `Ko lưu`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          saveDataMelon(newData);
+          setDataMelon([...dataMelon, newData]);
+          handleReset();
+          setSave(false);
+          Swal.fire("Đã lưu!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Không lưu", "", "info");
+        }
+      });
+    }
   };
 
   const calculatorMelons = () => {
@@ -133,6 +168,29 @@ const Melon = ({ dataMelon, setDataMelon }) => {
 
     setResultPrice(rst);
     setCalculatorMelon(true);
+  };
+
+  const handleDeleteItem = (index) => {
+    Swal.fire({
+      title: "Bạn có chắc?",
+      text: "Bạn sẽ không thể hoàn nguyên hành động này!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Vâng, xóa đi!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedItems = [...textareas];
+        updatedItems.splice(index, 1);
+        setTextareas(updatedItems);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Loại dưa này đã được xóa!",
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
@@ -193,15 +251,15 @@ const Melon = ({ dataMelon, setDataMelon }) => {
               </>
             ) : (
               <>
-                <button onClick={handleAdd} type="button">
-                  THÊM MỚI
-                </button>
                 <button
-                  className="btn-c"
-                  onClick={handleDeleteTexarea}
+                  className="btn-save"
+                  onClick={handleCheckedSave}
                   type="button"
                 >
-                  XÓA BỚT
+                  LƯU ĐƠN HÀNG
+                </button>
+                <button onClick={handleAdd} type="button">
+                  THÊM MỚI
                 </button>
               </>
             )}
@@ -209,21 +267,54 @@ const Melon = ({ dataMelon, setDataMelon }) => {
 
           {add ? (
             <div className="box-product">
-              <label htmlFor={nameMelon} className="label-name">
-                TÊN HÀNG
-              </label>
-              <input
-                type="text"
-                value={nameMelon}
-                id={nameMelon}
-                className="name-melon"
-                onChange={(e) => setNameMelon(e.target.value)}
-              />
+              <>
+                <label htmlFor={nameMelon} className="label-name">
+                  LOẠI DƯA
+                </label>
+                <input
+                  ref={selectName}
+                  type="text"
+                  value={nameMelon}
+                  id={nameMelon}
+                  className="name-melon"
+                  onChange={(e) => setNameMelon(e.target.value)}
+                  onFocus={handleSelectName}
+                />
+              </>
+              <>
+                <label
+                  htmlFor={`${nameMelon}${priceMelon}`}
+                  className="label-name"
+                >
+                  GIÁ 1KG
+                </label>
+                <input
+                  type="text"
+                  ref={selectPrice}
+                  typeof="numeric"
+                  defaultValue={priceMelon}
+                  id={`${nameMelon}${priceMelon}`}
+                  className="price-new-melon"
+                  onChange={(e) => setPriceMelon(e.target.value)}
+                  onFocus={handleSelectPrice}
+                />
+              </>
             </div>
           ) : (
-            <div>
-              {textareas.map((textarea) => (
+            <div className="container-pro">
+              {textareas.map((textarea, index) => (
                 <div key={textarea.id} className="container-product">
+                  <div className="box-del">
+                    <div
+                      className="item-box-del"
+                      onClick={() => handleDeleteItem(index)}
+                    >
+                      <button className="btn-item-box-del">
+                        <sub>DELETE</sub>
+                        <AiFillDelete />
+                      </button>
+                    </div>
+                  </div>
                   <div className="box-product">
                     <div className="box-item">
                       <label
@@ -265,105 +356,92 @@ const Melon = ({ dataMelon, setDataMelon }) => {
                         }
                       />
                     </div>
-                  </div>
-                  {textarea.totalMelon && (
-                    <div className="box-product">
-                      <p className="p-total">
-                        Tổng {textarea.name} :{" "}
-                        <strong className="strong-total">
-                          {textareas
-                            ? textarea?.totalMelon
-                            : (textarea?.totalMelon).toFixed(1)}
-                          kg
-                        </strong>
-                      </p>
-                      <p className="p-total">
-                        Thành $ :{" "}
-                        {textarea?.price === undefined ? (
-                          <strong className="strong-total">
-                            0<sup>đ</sup>
-                          </strong>
-                        ) : (
-                          <strong className="strong-total">
-                            {(
-                              +textarea?.totalMelon *
-                              +textarea?.price *
-                              1000
-                            ).toLocaleString("vi-VN")}
-                            <sup>đ</sup>
-                          </strong>
-                        )}
-                      </p>
+                    {/* tạm tính */}
+                    <div className="box-product-text">
+                      <input
+                        value={temporary.toLocaleString("vi-VN")}
+                        className="input-temporary"
+                        readOnly
+                      />
+                      <button
+                        type="button"
+                        className="button-temporary"
+                        onClick={() => setTemporary(textarea.totalPriceMelon)}
+                      >
+                        TẠM TÍNH
+                      </button>
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
-              <div className="container-resul-total">
-                <div className="crt-button">
-                  <button onClick={calculatorMelons} type="button">
-                    TỔNG TIỀN
-                  </button>
-                  <button className="btn-c" onClick={handleReset} type="button">
-                    TÍNH MỚI
-                  </button>
-                  <button
-                    className="btn-save"
-                    onClick={() => setSave(true)}
-                    type="button"
-                  >
-                    LƯU DT
-                  </button>
-                </div>
+              {textareas.length > 0 && (
+                <div className="container-resul-total">
+                  <div className="crt-button">
+                    <button
+                      className="btn-c"
+                      onClick={handleReset}
+                      type="button"
+                    >
+                      TÍNH MỚI
+                    </button>
+                    <button onClick={calculatorMelons} type="button">
+                      TỔNG TIỀN
+                    </button>
+                  </div>
 
-                {calculatorMelon && (
-                  <section>
-                    {" "}
-                    <table className="table-total">
-                      <thead>
-                        <tr>
-                          <th>LOẠI</th>
-                          <th>GIÁ $</th>
-                          <th>SỐ KG</th>
-                          <th>TỔNG $</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {textareas.map((melon) => (
-                          <tr key={melon.id}>
-                            <td>{melon.name.toUpperCase()}</td>
-                            <td>
-                              {isNaN(
-                                (melon?.price * 1000).toLocaleString("vi-VN")
-                              )
-                                ? 0
-                                : (melon?.price * 1000).toLocaleString("vi-VN")}
-                              <sup>vnđ</sup>
-                            </td>
-                            <td>
-                              {melon?.kilograms ?? 0}
-                              <sup>Kg</sup>
-                            </td>
-                            <td>
-                              {melon?.totalPriceMelon.toLocaleString("vi-VN") ??
-                                0}
-                              <sup>vnđ</sup>
-                            </td>
+                  {calculatorMelon && (
+                    <section>
+                      {" "}
+                      <table className="table-total">
+                        <thead>
+                          <tr>
+                            <th>LOẠI</th>
+                            <th>GIÁ $</th>
+                            <th>SỐ KG</th>
+                            <th>TỔNG $</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div style={{ width: "100vw" }}>
-                      <h1 className="price-label">
-                        TỔNG CỘNG :
-                        <strong>
-                          {resultPrice.toLocaleString("vi-VN")}
-                          <sup>vnđ</sup>
-                        </strong>
-                      </h1>
-                    </div>{" "}
-                  </section>
-                )}
-              </div>
+                        </thead>
+                        <tbody>
+                          {textareas.map((melon) => (
+                            <tr key={melon.id}>
+                              <td>{melon.name.toUpperCase()}</td>
+                              <td>
+                                {isNaN(
+                                  (melon?.price * 1000).toLocaleString("vi-VN")
+                                )
+                                  ? 0
+                                  : (melon?.price * 1000).toLocaleString(
+                                      "vi-VN"
+                                    )}
+                                <sup>vnđ</sup>
+                              </td>
+                              <td>
+                                {melon?.kilograms ?? 0}
+                                <sup>Kg</sup>
+                              </td>
+                              <td>
+                                {melon?.totalPriceMelon.toLocaleString(
+                                  "vi-VN"
+                                ) ?? 0}
+                                <sup>vnđ</sup>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div style={{ width: "100vw" }}>
+                        <h1 className="price-label">
+                          TỔNG CỘNG :
+                          <strong>
+                            {resultPrice.toLocaleString("vi-VN")}
+                            <sup>VĐN</sup>
+                          </strong>
+                        </h1>
+                      </div>{" "}
+                    </section>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>

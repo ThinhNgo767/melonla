@@ -5,14 +5,18 @@
 .table-list table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .table-list td,
 .table-list th {
-  border: 1px solid #fdd7c8;
+  border: 1px solid #2a4e0f;
   text-align: left;
   padding: 8px;
+}
+td.creator {
+  font-style: italic;
 }
 
 .table-list tr:nth-child(even) {
@@ -24,6 +28,17 @@
 }
 td.td-name {
   text-transform: capitalize;
+  color: #2e51ed;
+  font-weight: bold;
+}
+.table-list button {
+  min-height: 1.8rem;
+  min-width: 3rem;
+  border: 1px solid #2d4976;
+  outline: none;
+  background-color: #f78785;
+  color: #090000;
+  font-weight: 550;
 }
 .full-info .item-info p {
   margin: 0;
@@ -90,8 +105,7 @@ td.td-name {
   align-items: center;
   gap: 1rem;
 }
-.full-info button,
-.table-list button {
+.full-info button {
   min-width: fit-content;
   min-height: 1.5rem;
   color: #2a4e0f;
@@ -113,4 +127,9 @@ input.checkbox-item {
   outline: none;
   min-width: 1rem;
   min-height: 1rem;
+}
+@media only screen and (max-width: 480px) {
+  .table-list table {
+    width: 100%;
+  }
 }

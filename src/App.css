@@ -6,11 +6,6 @@
   background-repeat: repeat-y;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 button,
 input {
   border: 1px solid #4c6748;
@@ -18,8 +13,10 @@ input {
   border-radius: 3px;
 }
 .App .box-melon {
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -51,7 +48,4 @@ input {
   }
 }
 @media only screen and (max-width: 480px) {
-  .App {
-    background-size: contain;
-  }
 }

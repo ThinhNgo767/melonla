@@ -1,0 +1,84 @@
+.box-show-full table {
+  max-width: 90%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.box-show-full table,
+.box-show-full th,
+.box-show-full td {
+  border: 1px solid #fff;
+  border-collapse: collapse;
+}
+.box-show-full th {
+  text-align: left;
+  background-color: #2d4976;
+}
+.box-show-full tr {
+  background-color: #e3d9d59e;
+}
+.box-show-full tr:nth-child(even) {
+  background-color: #e3d9d59e;
+}
+
+.box-show-full td.info-order {
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+td.name-melon {
+  text-transform: capitalize;
+}
+td.total-price {
+  font-weight: 600;
+  text-align: center;
+  color: #2d4976;
+  font-size: 18px;
+}
+td.paid {
+  font-weight: bold;
+  font-style: italic;
+  color: #2d4976;
+}
+td.not-paid {
+  color: #e85b57;
+  font-weight: 600;
+}
+.box-show-full button {
+  text-transform: uppercase;
+  min-width: fit-content;
+  min-height: 1.8rem;
+  background-color: #2d4976;
+  color: #fff;
+  border: none;
+  outline: none;
+}
+.box-show-full .item {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+textarea.textarea-note {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  width: 12rem;
+  height: 2rem;
+  resize: none;
+  border: 1px solid #2d4976;
+  padding-left: 0.25rem;
+  border-radius: 3px;
+}
+input#check-payment,
+input#check-shipped {
+  border: none;
+  outline: none;
+  width: 1rem;
+  height: 1rem;
+}
+label.check-payment,
+label.check-shipped {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}

@@ -4,10 +4,12 @@ import { NavLink } from "react-router-dom";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ isLogin, setIsLogin }) => {
+const Header = ({ isLogin, setIsLogin, ranker, setRanker }) => {
   const activeClass = (params) => {
     return params.isActive ? "active-item" : "";
   };
+
+  const { admin, access } = ranker;
 
   const navigate = useNavigate();
 
@@ -15,6 +17,7 @@ const Header = ({ isLogin, setIsLogin }) => {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("dataMelon");
     setIsLogin(false);
+    setRanker(false);
     navigate("/");
   };
 
@@ -24,17 +27,33 @@ const Header = ({ isLogin, setIsLogin }) => {
         <ul className="nav-list">
           {isLogin ? (
             <>
+              {access && admin && (
+                <>
+                  <li>
+                    <NavLink to="/creat" className={activeClass}>
+                      CREAT
+                    </NavLink>
+                  </li>
+                  <li>|</li>
+                </>
+              )}
+
               <li>
                 <NavLink to="/cal-melon" className={activeClass}>
                   APP
                 </NavLink>
               </li>
-              <li>|</li>
-              <li>
-                <NavLink to="/list" className={activeClass}>
-                  Custom
-                </NavLink>
-              </li>
+              {access && (
+                <>
+                  <li>|</li>
+                  <li>
+                    <NavLink to="/list" className={activeClass}>
+                      Custom
+                    </NavLink>
+                  </li>
+                </>
+              )}
+
               <li>|</li>
               <li>
                 <button className="logout" onClick={handleLogout}>

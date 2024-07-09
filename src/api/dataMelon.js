@@ -47,3 +47,14 @@ export const updateDataMelon = async (id, data) => {
       console.error(err);
     });
 };
+
+export const creatNewUser = async (data) => {
+  axios
+    .post(URL_API_USERS, data)
+    .then(() => {
+      alert("Created success!");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
