@@ -58,3 +58,13 @@ export const creatNewUser = async (data) => {
       console.error(err);
     });
 };
+export const updatePassword = async (id, data) => {
+  await axios
+    .put(`${URL_API_USERS}${id}`, data)
+    .then(() => {
+      console.log("Hoàn tất");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};

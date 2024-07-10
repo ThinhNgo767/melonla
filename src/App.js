@@ -7,10 +7,15 @@ import Home from "./page/Home";
 import EmailForm from "./page/Contact";
 import CreatedUser from "./page/CreatAcc";
 import Error from "./page/Error";
+
+import DashBoard from "./page/Dashboard";
+import AddMember from "./page/Dashboard/component/AddMember";
+import ListMember from "./page/Dashboard/component/ListMember";
+
 import { URL_API_USERS } from "./api/dataMelon";
 
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function App() {
@@ -21,6 +26,17 @@ function App() {
     access: false,
     admin: false,
   });
+
+  const pathname = useLocation().pathname;
+  useEffect(() => {
+    if (pathname === "/cal-melon") {
+      document.title = "Melon APP - Ứng dụng tính tiền dưa";
+    } else if (pathname === "/list") {
+      document.title = "Melon APP - Danh sách khách hàng";
+    } else {
+      document.title = "Melon APP";
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const checkRankerUsers = async () => {
@@ -109,9 +125,13 @@ function App() {
         <Route path="/contact" element={<EmailForm />} />
 
         <Route
-          path="/creat"
-          element={<>{admin ? <CreatedUser /> : <Error />}</>}
-        />
+          path="/dashboard"
+          element={<>{admin ? <DashBoard /> : <Error />}</>}
+        >
+          <Route path="add-member" element={<AddMember />} />
+          <Route path="list-member" element={<ListMember />} />
+        </Route>
+
         <Route path="*" element={<Error />} />
       </Routes>
 

@@ -1,11 +1,11 @@
 import "./style.css";
-import { creatNewUser } from "../../api/dataMelon";
+import { creatNewUser } from "../../../../api/dataMelon";
 
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 
-const CreatedUser = () => {
+const AddMember = () => {
   const [newAccount, setNewAccount] = useState("");
   const [newPassAccount, setNewPassAccount] = useState("");
   const [newAccountRank, setNewAccountRank] = useState("");
@@ -103,4 +103,4 @@ const CreatedUser = () => {
     </div>
   );
 };
-export default CreatedUser;
+export default AddMember;

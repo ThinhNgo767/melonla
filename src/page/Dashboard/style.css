@@ -1,0 +1,75 @@
+.dashboard {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+}
+.dashboard .active-item {
+  color: #f47270;
+}
+.nav-dash {
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+.nav-dash a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #11274a;
+  font-weight: 600;
+}
+.nav-dash a:hover {
+  color: #f47270;
+  border-bottom: 2px solid #f47270;
+}
+h1.title-dash {
+  margin: 0;
+  text-transform: uppercase;
+  color: #2d4976;
+  text-align: left;
+  font-style: oblique;
+}
+.box-dash-right {
+  width: 85%;
+}
+.nav-dash,
+.box-dash-right {
+  border-right: 3px solid;
+  border-top: 3px solid;
+}
+@media only screen and (max-width: 480px) {
+  .dashboard {
+    flex-direction: column;
+    height: 100%;
+  }
+  .nav-dash,
+  .box-dash-right {
+    width: 100%;
+  }
+  .nav-dash {
+    height: 20%;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+  .nav-dash a {
+    font-size: 18px;
+  }
+  .box-dash-right {
+    height: 80%;
+    min-height: 80vh;
+  }
+  h1.title-dash {
+    display: none;
+  }
+  .nav-dash,
+  .box-dash-right {
+    border: none;
+  }
+}

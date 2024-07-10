@@ -30,8 +30,8 @@ const Header = ({ isLogin, setIsLogin, ranker, setRanker }) => {
               {access && admin && (
                 <>
                   <li>
-                    <NavLink to="/creat" className={activeClass}>
-                      CREAT
+                    <NavLink to="/dashboard" className={activeClass}>
+                      DB
                     </NavLink>
                   </li>
                   <li>|</li>
