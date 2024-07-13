@@ -1,5 +1,5 @@
 import "./style.css";
-import { URL_API_USERS } from "../../api/dataMelon";
+import { url_api_users } from "../../api/dataMelon";
 import { fetchDataMelon } from "../../api/dataMelon";
 
 import { useState } from "react";
@@ -22,7 +22,7 @@ const Home = ({ setIsLogin, setRanker }) => {
       return;
     }
     await axios
-      .get(URL_API_USERS)
+      .get(url_api_users)
       .then((res) => {
         const users = res.data;
 

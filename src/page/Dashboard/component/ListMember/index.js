@@ -1,5 +1,5 @@
 import "./style.css";
-import { URL_API_USERS } from "../../../../api/dataMelon";
+import { url_api_users } from "../../../../api/dataMelon";
 import { updatePassword } from "../../../../api/dataMelon";
 
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ const ListMember = () => {
 
   useEffect(() => {
     axios
-      .get(URL_API_USERS)
+      .get(url_api_users)
       .then((res) => {
         const render = res.data.map((data) => {
           return (
@@ -48,7 +48,7 @@ const ListMember = () => {
       return;
     } else {
       await axios
-        .get(URL_API_USERS)
+        .get(url_api_users)
         .then((res) => {
           const isMem = res.data.find((m) => m.id === id);
 

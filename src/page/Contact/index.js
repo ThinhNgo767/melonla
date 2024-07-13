@@ -1,5 +1,5 @@
 import "./style.css";
-import { URL_API_USERS } from "../../api/dataMelon";
+import { url_api_users } from "../../api/dataMelon";
 
 import { useState } from "react";
 import axios from "axios";
@@ -32,12 +32,12 @@ const EmailForm = () => {
       message: message,
     };
 
-    await axios.get(`${URL_API_USERS}1`).then((res) => {
+    await axios.get(`${url_api_users}1`).then((res) => {
       const users = res.data;
       users.requests.push(requests);
 
       axios
-        .put(`${URL_API_USERS}1`, users)
+        .put(`${url_api_users}1`, users)
         .then(() => {
           setEmail("");
           setMessage("");

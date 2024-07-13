@@ -5,14 +5,12 @@ import Melon from "./page/Melons";
 import DataListMelon from "./page/DatalistMelon";
 import Home from "./page/Home";
 import EmailForm from "./page/Contact";
-import CreatedUser from "./page/CreatAcc";
 import Error from "./page/Error";
-
 import DashBoard from "./page/Dashboard";
 import AddMember from "./page/Dashboard/component/AddMember";
 import ListMember from "./page/Dashboard/component/ListMember";
 
-import { URL_API_USERS } from "./api/dataMelon";
+import { url_api_users } from "./api/dataMelon";
 
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -33,6 +31,8 @@ function App() {
       document.title = "Melon APP - Ứng dụng tính tiền dưa";
     } else if (pathname === "/list") {
       document.title = "Melon APP - Danh sách khách hàng";
+    } else if (pathname === "/dashboard") {
+      document.title = "Melon APP - Administratos";
     } else {
       document.title = "Melon APP";
     }
@@ -42,7 +42,7 @@ function App() {
     const checkRankerUsers = async () => {
       const token = sessionStorage.getItem("user");
       await axios
-        .get(URL_API_USERS)
+        .get(url_api_users)
         .then((res) => {
           res.data.filter((u) => {
             if (u.userName === token && u.ranker === "admin") {

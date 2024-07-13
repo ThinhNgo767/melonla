@@ -1,12 +1,11 @@
 import axios from "axios";
 
-export const URL_API = "https://668026f656c2c76b495b4f16.mockapi.io/melon/";
-export const URL_API_USERS =
-  "https://668026f656c2c76b495b4f16.mockapi.io/users/";
+export const url_api_users = process.env.REACT_APP_API_USERS_URL;
+export const url_api_melon = process.env.REACT_APP_API_MELON_URL;
 
 export const fetchDataMelon = async () => {
   await axios
-    .get(URL_API)
+    .get(url_api_melon)
     .then((res) => {
       sessionStorage.setItem("dataMelon", JSON.stringify(res.data));
     })
@@ -17,7 +16,7 @@ export const fetchDataMelon = async () => {
 
 export const saveDataMelon = async (data) => {
   axios
-    .post(URL_API, data)
+    .post(url_api_melon, data)
     .then(() => {
       fetchDataMelon();
     })
@@ -28,7 +27,7 @@ export const saveDataMelon = async (data) => {
 
 export const deleteDataMelon = async (id) => {
   await axios
-    .delete(`${URL_API}${id}`)
+    .delete(`${url_api_melon}${id}`)
     .then(() => {
       fetchDataMelon();
     })
@@ -39,7 +38,7 @@ export const deleteDataMelon = async (id) => {
 
 export const updateDataMelon = async (id, data) => {
   await axios
-    .put(`${URL_API}${id}`, data)
+    .put(`${url_api_melon}${id}`, data)
     .then(() => {
       fetchDataMelon();
     })
@@ -50,7 +49,7 @@ export const updateDataMelon = async (id, data) => {
 
 export const creatNewUser = async (data) => {
   axios
-    .post(URL_API_USERS, data)
+    .post(url_api_users, data)
     .then(() => {
       alert("Created success!");
     })
@@ -60,7 +59,7 @@ export const creatNewUser = async (data) => {
 };
 export const updatePassword = async (id, data) => {
   await axios
-    .put(`${URL_API_USERS}${id}`, data)
+    .put(`${url_api_users}${id}`, data)
     .then(() => {
       console.log("Hoàn tất");
     })
